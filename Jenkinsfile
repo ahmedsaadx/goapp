@@ -5,8 +5,8 @@ agent{
     }
 }
     environment {
-        ZONE = "XX"
-        PROJECT_ID = "XX"
+        ZONE = "us-east1-b"
+        PROJECT_ID = "saad-375811"
     }
 
     stages{
