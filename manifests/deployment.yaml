@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: hello-app
-        image: gcr.io/saad-375811/hello-app:
+        image: docker.io/ahmedsaadx0/goapp
         ports:
         - containerPort: 8080
         resources:
