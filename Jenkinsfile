@@ -15,7 +15,7 @@ agent{
             steps{
                 script{
         git(
-            url: 'https://github.com/Onkar179/jenkins-gke-deploy.git',
+            url: 'git@github.com:ahmedsaadx/go-app.git',
             credentialsId: 'git-token',
             branch: 'main'
             )
@@ -27,19 +27,19 @@ agent{
             steps{
                 script{
                     sh 'gcloud auth configure-docker asia-south1-docker.pkg.dev'
-                    sh 'docker build . -t asia-south1-docker.pkg.dev/xx/jenkins/hello-app:${BUILD_NUMBER}'
+                    sh 'docker build . -t gcr.io/saad275811/hello-app:${BUILD_NUMBER}'
                     }
                 }
             }
         stage("Pushing Application Docker Image to Google Artifact Registry"){
             steps{
                 script{
-                    sh 'docker push asia-south1-docker.pkg.dev/xx/jenkins/hello-app:${BUILD_NUMBER}'
+                    sh 'docker push gcr.io/saad275811/hello-app:${BUILD_NUMBER}'
         }}}
         stage ("Updating Deployment Manifest") {
             steps {
                 script {
-                    sh 'sed -i s+asia-south1-docker.pkg.dev/xx/jenkins/hello-app:v1+asia-south1-docker.pkg.dev/xx/jenkins/hello-app:${BUILD_NUMBER}+g manifests/deployment.yaml'
+                    sh 'sed -i s+gcr.io/saad375811/hello-app:1+hello-app:v1gcr.io/saad375811/hello-app:${BUILD_NUMBER}'+g  manifests/deployment.yaml'
                 }
             }
         }
