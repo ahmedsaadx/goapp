@@ -6,22 +6,28 @@ pipeline {
             steps {
                git(
             	url: 'https://github.com/ahmedsaadx/goapp.git',
-            	credentialsId: 'git-token',
+            	credentialsId: 'token',
             	branch: 'main'
             )
             }
         }
-        
         stage('Build') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'DockerHub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                     sh """
                         ls
                         docker login -u ${USERNAME} -p ${PASSWORD}
-                        docker build . -t ahmedsaadx0/goapp
-                        docker push ahmedsaadx0/goapp
+                        docker build . -t ahmedsaadx0/goapp:${BUILD_NUMBER}
+                        docker push ahmedsaadx0/goapp:${BUILD_NUMBER}
                     """
                 } 
+            }
+        }
+        stage ("Updating Deployment Manifest") {
+            steps {
+                script {
+                    sh 'sed -i s+docker.io/ahmedsaadx0/goapp+docker.io/ahmedsaadx0/goapp:${BUILD_NUMBER}+g manifests/deployment.yaml'
+                }
             }
         }
         
@@ -37,3 +43,4 @@ pipeline {
         }
     }
 }
+
