@@ -30,10 +30,8 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                sh """
-                    ls
+                sh """                    
                     cd manifests
-                    ls
                     kubectl apply -f ns.yaml
                     kubectl apply -f deployment.yaml
                     kubectl apply -f service.yaml
