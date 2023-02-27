@@ -4,14 +4,11 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: '*/main']],
-                    userRemoteConfigs: [[
-                        url: 'https://github.com/ahmedsaadx/goapp.git',
-                        credentialsId: 'GitHub'
-                    ]]
-                ])
+               git(
+            	url: 'https://github.com/ahmedsaadx/goapp.git',
+            	credentialsId: 'git-token',
+            	branch: 'main'
+            )
             }
         }
         
